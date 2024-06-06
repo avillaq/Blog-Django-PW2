@@ -1,17 +1,17 @@
 from django.contrib import admin
 from .models import Post, Comment
 
-# admin.site.register(Post) . if you want to register the model with the default admin interface
+# Registra el modelo Post en el panel de administración de Django. 
+# admin.site.register(Post) . 
 
-@admin.register(Post) # if you want to register the model with the custom admin interface
+# Otra forma de registrar el modelo Post en el panel de administración de Django de manera más personalizada.
+@admin.register(Post) 
 class PostAdmin(admin.ModelAdmin): 
-    list_display = ['title', 'slug', 'author', 'publish', 'status']
-    list_filter = ['status', 'created', 'publish', 'author']
-    search_fields = ['title', 'body']
-    prepopulated_fields = {'slug': ('title',)}
-    raw_id_fields = ['author']
-    date_hierarchy = 'publish'
-    ordering = ['status', 'publish']
+    list_display = ['title', 'slug', 'author', 'publish', 'status'] # Muestra los campos title, slug, author, publish y status en la lista de objetos.
+    list_filter = ['status', 'created', 'publish', 'author'] # Agrega un panel de filtro en el lado derecho de la página que permite filtrar los resultados por los campos status, created, publish y author.
+    search_fields = ['title', 'body'] # Agrega un campo de búsqueda en la parte superior de la página que permite buscar objetos por los campos title y body.
+    prepopulated_fields = {'slug': ('title',)} # Crea un campo de slug que se rellena automáticamente con el valor del campo title.
+    ordering = ['status', 'publish'] # Ordena los objetos por los campos status y publish en orden ascendente.
 
 @admin.register(Comment) 
 class CommentAdmin(admin.ModelAdmin):
