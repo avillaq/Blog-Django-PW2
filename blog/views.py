@@ -86,7 +86,7 @@ def post_share(request, post_id):
                                                     'form': form,
                                                     'sent': sent})
 
-@require_POST
+@require_POST # Decorador que permite que la vista solo se pueda acceder a través de una solicitud POST.
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     comment = None

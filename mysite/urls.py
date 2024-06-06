@@ -21,3 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls', namespace='blog')),
 ]
+
+# namespace='blog' sirve para que Django pueda diferenciar entre las URLs de diferentes aplicaciones.
+# Ejemplo: blog:post_list y blog:post_detail
