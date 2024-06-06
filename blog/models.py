@@ -3,12 +3,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-# Manager personalizado . Un manager es un objeto que maneja consultas a la base de datos.
-class PublishedManager(models.Manager):
-    def get_queryset(self):
-        # Este método filtra los objetos de la base de datos para que solo se devuelvan los  que tienen el estado publicado.
-        return super().get_queryset()\
-                     .filter(status=Post.Estado.PUBLICADO) 
 
 class Post(models.Model):
     class Estado(models.TextChoices): # Enumeración de opciones de estado : Borrador y Publicado
@@ -28,10 +22,6 @@ class Post(models.Model):
     status = models.CharField(max_length=2,
                               choices=Estado.choices,
                               default=Estado.BORRADOR)
-    
-    # Managers (Opcional)
-    published = PublishedManager() # Este manager se puede usar para recuperar todos los objetos Post que tienen el estado publicado.
-
 
     class Meta:
         ordering = ['-publish'] # Cuando se consulte la base de datos, los resultados se ordenarán por el campo publish en orden descendente.

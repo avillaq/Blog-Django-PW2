@@ -15,14 +15,14 @@ from django.views.generic import ListView
 class PostListView(ListView): # Hereda de la clase ListView que es una vista genérica que se utiliza para mostrar una lista de objetos.
     # Esta vista es una alternativa a la vista basada en funciones post_list.
 
-    queryset = Post.published.all()  # Obtiene todos los objetos Post que tienen el estado publicado.
+    queryset = Post.objects.filter(status=Post.Estado.PUBLICADO)   # Obtiene todos los objetos Post que tienen el estado publicado.
     context_object_name = 'posts' # El nombre de la variable de contexto que se utilizará en la plantilla.
     paginate_by = 3 # Muestra 3 posts por página.
     template_name = 'blog/post/list.html' # La plantilla que se utilizará para renderizar la página.
 
 
 def post_list(request):
-    posts = Post.published.all() # Obtiene todos los objetos Post que tienen el estado publicado.
+    posts = Post.objects.filter(status=Post.Estado.PUBLICADO)  # Obtiene todos los objetos Post que tienen el estado publicado.
     
     # Paginator mostrara 3 posts por página
     paginator = Paginator(posts, 3)
