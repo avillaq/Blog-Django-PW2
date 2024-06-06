@@ -43,7 +43,7 @@ def post_list(request):
 def post_detail(request, year, month, day, post):
     # get_object_or_404 es una función que recupera un objeto de la base de datos o devuelve un error 404 si el objeto no existe.
     post = get_object_or_404(Post,
-                            status=Post.Status.PUBLISHED,
+                            status=Post.Estado.PUBLICADO,
                             slug=post,
                             publish__year=year,
                             publish__month=month,
@@ -61,7 +61,7 @@ def post_detail(request, year, month, day, post):
                    'form': form})
 
 def post_share(request, post_id):
-    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    post = get_object_or_404(Post, id=post_id, status=Post.Estado.PUBLICADO)
     sent = False # Variable que se establece en True si el correo electrónico se envía correctamente.
 
     if request.method == 'POST':
@@ -88,7 +88,7 @@ def post_share(request, post_id):
 
 @require_POST # Decorador que permite que la vista solo se pueda acceder a través de una solicitud POST.
 def post_comment(request, post_id):
-    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    post = get_object_or_404(Post, id=post_id, status=Post.Estado.PUBLICADO)
     comment = None
     # A comment was posted
     form = CommentForm(data=request.POST)

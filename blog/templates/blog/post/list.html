@@ -9,7 +9,7 @@
             </a>
         </h2>
         <p class="date">
-            Published {{ post.publish }} by {{ post.author }}
+            Publicado {{ post.publish }} por {{ post.author }}
         </p>
         {{ post.body | truncatewords:30 | linebreaks }}
     {% endfor %}

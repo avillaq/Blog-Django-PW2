@@ -8,12 +8,12 @@ class PublishedManager(models.Manager):
     def get_queryset(self):
         # Este método filtra los objetos de la base de datos para que solo se devuelvan los  que tienen el estado publicado.
         return super().get_queryset()\
-                     .filter(status=Post.Status.PUBLISHED) 
+                     .filter(status=Post.Estado.PUBLICADO) 
 
 class Post(models.Model):
-    class Status(models.TextChoices): # Enumeración de opciones de estado : Draft y Published
-        DRAFT = 'DF', 'Draft'
-        PUBLISHED = 'PB', 'Published'
+    class Estado(models.TextChoices): # Enumeración de opciones de estado : Borrador y Publicado
+        BORRADOR = 'BR', 'Borrador'
+        PUBLICADO = 'PB', 'Publicado'
     
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250,
@@ -26,8 +26,8 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2,
-                              choices=Status.choices,
-                              default=Status.DRAFT)
+                              choices=Estado.choices,
+                              default=Estado.BORRADOR)
     
     # Managers (Opcional)
     published = PublishedManager() # Este manager se puede usar para recuperar todos los objetos Post que tienen el estado publicado.
