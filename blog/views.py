@@ -89,7 +89,7 @@ def post_share(request, post_id):
                                                     'sent': sent})
 
 @require_POST # Decorador que permite que la vista solo se pueda acceder a través de una solicitud POST.
-def post_comentario(request, post_id):
+def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Estado.PUBLICADO)
     comentario = None  # Varialbe que almacena el comentario e indica si el comentario se ha guardado correctamente. 
     form = CommentForm(data=request.POST)
@@ -100,6 +100,6 @@ def post_comentario(request, post_id):
         comentario.post = post
         # Guarda el comentario en la base de datos
         comentario.save()
-    return render(request, 'blog/post/comentario.html',
+    return render(request, 'blog/post/comment.html',
                            {'post': post,
                             'comentario': comentario})
