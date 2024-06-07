@@ -6,6 +6,8 @@
         <p>
             "{{ post.title }}" fue enviado exitosamente a {{ form.cleaned_data.to }}.
         </p>
+        <p><a href="{{ post.get_absolute_url }}">Volver al post</a></p>
+
     {% else %}
         <h1>Compartir "{{ post.title }}" por correo</h1>
         <form method="post">
