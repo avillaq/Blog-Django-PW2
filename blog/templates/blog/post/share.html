@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% block title %}Compartir post{% endblock %}
 {% block content %}
-    {% if sent %}
+    {% if enviado %}
         <h1>Correo enviado exitosamente</h1>
         <p>
             "{{ post.title }}" fue enviado exitosamente a {{ form.cleaned_data.to }}.

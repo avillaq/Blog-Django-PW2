@@ -66,17 +66,17 @@ def post_share(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Estado.PUBLICADO)
     enviado = False # Variable que se establece en True si el correo electrónico se envía correctamente.
 
-    if request.method == 'POST':
+    if request.method == 'POST': # Si el formulario se envía a través de una solicitud POST.
         form = EmailPostForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data # La función cleaned_data devuelve un diccionario de datos limpios y validados.
-            post_url = request.build_absolute_uri(post.get_absolute_url()) # Construye la URL absoluta de la publicación.
+            post_url = request.build_absolute_uri(post.get_absolute_url()) # Construye la URL absoluta del post.
             subject = f"{cd['name']} te recomienda leer {post.title}"
             message = f"Lee {post.title} en {post_url}\n\n {cd['comments']}"
             send_mail(subject, message, 'villafuertequispealex@gmail.com', [cd['to']])
             enviado = True
     else:
-        form = EmailPostForm()
+        form = EmailPostForm() # Crea un formulario en blanco si la solicitud no es POST.
         
     return render(request, 'blog/post/share.html', {'post': post,
                                                     'form': form,
