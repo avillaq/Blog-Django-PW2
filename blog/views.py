@@ -64,29 +64,23 @@ def post_detail(request, year, month, day, post):
 
 def post_share(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Estado.PUBLICADO)
-    sent = False # Variable que se establece en True si el correo electrónico se envía correctamente.
+    enviado = False # Variable que se establece en True si el correo electrónico se envía correctamente.
 
     if request.method == 'POST':
-        # Form was submitted
         form = EmailPostForm(request.POST)
         if form.is_valid():
-            # Form fields passed validation
-            cd = form.cleaned_data
-            post_url = request.build_absolute_uri(
-                    post.get_absolute_url())
-            subject = f"{cd['name']} recommends you read " \
-                        f"{post.title}"
-            message = f"Read {post.title} at {post_url}\n\n" \
-                        f"{cd['name']}\'s comments: {cd['comments']}"
-            send_mail(subject, message, 'villafuertequispealex@gmail.com',
-                        [cd['to']])
-            sent = True
+            cd = form.cleaned_data # La función cleaned_data devuelve un diccionario de datos limpios y validados.
+            post_url = request.build_absolute_uri(post.get_absolute_url()) # Construye la URL absoluta de la publicación.
+            subject = f"{cd['name']} te recomienda leer {post.title}"
+            message = f"Lee {post.title} en {post_url}\n\n {cd['comments']}"
+            send_mail(subject, message, 'villafuertequispealex@gmail.com', [cd['to']])
+            enviado = True
     else:
         form = EmailPostForm()
         
     return render(request, 'blog/post/share.html', {'post': post,
                                                     'form': form,
-                                                    'sent': sent})
+                                                    'enviado': enviado})
 
 @require_POST # Decorador que permite que la vista solo se pueda acceder a través de una solicitud POST.
 def post_comment(request, post_id):

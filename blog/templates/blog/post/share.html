@@ -10,6 +10,8 @@
 
     {% else %}
         <h1>Compartir "{{ post.title }}" por correo</h1>
+        <p><a href="{{ post.get_absolute_url }}">Volver al post</a></p>
+
         <form method="post">
             {{ form.as_p }}
             {% csrf_token %}

@@ -25,7 +25,7 @@ class Post(models.Model):
     def __str__(self):
         return self.title
     
-    #IMPORTANTE : Este método devuelve la URL canónica de un objeto.
+    #IMPORTANTE : Esta funcion devuelve la URL canónica de un objeto.
     def get_absolute_url(self):
         return reverse('blog:post_detail',
                        args=[self.publish.year,
