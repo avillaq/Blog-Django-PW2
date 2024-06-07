@@ -23,14 +23,10 @@ class Post(models.Model):
                               choices=Estado.choices,
                               default=Estado.BORRADOR)
 
-    class Meta:
-        ordering = ['-publish'] # Cuando se consulte la base de datos, los resultados se ordenarán por el campo publish en orden descendente.
-
-
     def __str__(self):
         return self.title
     
-    #IMPORTANT This method will return the canonical URL for a post
+    #IMPORTANTE : Este método devuelve la URL canónica de un objeto.
     def get_absolute_url(self):
         return reverse('blog:post_detail',
                        args=[self.publish.year,
