@@ -14,6 +14,6 @@
         {{ post.cuerpo | truncatewords:30 | linebreaks }}
     {% endfor %}
 
-    {% include "blog/paginacion.html" with page=page_obj %}
+    {% include "blog/post/paginacion.html" with page=page_obj %}
 
 {% endblock %}
