@@ -12,7 +12,7 @@ from django.views.generic import ListView
 
 
 #IMPORTANTE: Vista basada en clases que muestra una lista de publicaciones.
-class PostListView(ListView): # Hereda de la clase ListView que es una vista genérica que se utiliza para mostrar una lista de objetos.
+class PostListaView(ListView): # Hereda de la clase ListView que es una vista genérica que se utiliza para mostrar una lista de objetos.
     # Esta vista es una alternativa a la vista basada en funciones post_list.
 
     # Obtiene todos los objetos Post que tienen el estado publicado y los ordena por fecha de publicación en orden descendente.
@@ -22,7 +22,7 @@ class PostListView(ListView): # Hereda de la clase ListView que es una vista gen
     template_name = 'blog/post/lista.html' # La plantilla que se utilizará para renderizar la página.
 
 
-def post_list(request):
+def post_lista(request):
     # Obtiene todos los objetos Post que tienen el estado publicado y los ordena por fecha de publicación en orden descendente.
     posts = Post.objects.filter(estado=Post.Estado.PUBLICADO).order_by('-fecha_publicado')  
     
@@ -42,7 +42,7 @@ def post_list(request):
                 'blog/post/lista.html',
                 {'posts': posts})
 
-def post_detail(request, year, month, day, post):
+def post_detalle(request, year, month, day, post):
     # get_object_or_404 es una función que recupera un objeto de la base de datos o devuelve un error 404 si el objeto no existe.
     post = get_object_or_404(Post,
                             estado=Post.Estado.PUBLICADO,
@@ -62,7 +62,7 @@ def post_detail(request, year, month, day, post):
                    'comentarios': comentarios,
                    'form': form})
 
-def post_share(request, post_id):
+def post_compartir(request, post_id):
     post = get_object_or_404(Post, id=post_id, estado=Post.Estado.PUBLICADO)
     enviado = False # Variable que se establece en True si el correo electrónico se envía correctamente.
 
@@ -83,7 +83,7 @@ def post_share(request, post_id):
                                                     'enviado': enviado})
 
 @require_POST # Decorador que permite que la vista solo se pueda acceder a través de una solicitud POST.
-def post_comment(request, post_id):
+def post_comentar(request, post_id):
     post = get_object_or_404(Post, id=post_id, estado=Post.Estado.PUBLICADO)
     comentario = None  # Varialbe que almacena el comentario e indica si el comentario se ha guardado correctamente. 
     form = ComentarioForm(data=request.POST)
@@ -94,6 +94,6 @@ def post_comment(request, post_id):
         comentario.post = post
         # Guarda el comentario en la base de datos
         comentario.save()
-    return render(request, 'blog/comentario.html',
+    return render(request, 'blog/post/comentario.html',
                            {'post': post,
                             'comentario': comentario})

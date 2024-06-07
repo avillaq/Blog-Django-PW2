@@ -25,7 +25,7 @@ class Post(models.Model):
     
     #IMPORTANTE : Esta funcion devuelve la URL canónica de un post.
     def get_absolute_url(self): # reverse() genera la URL absoluta a partir de la vista y los parámetros dados.
-        return reverse('blog:post_detail',
+        return reverse('blog:post_detalle',
                        args=[self.fecha_publicado.year,
                             self.fecha_publicado.month,
                             self.fecha_publicado.day,
