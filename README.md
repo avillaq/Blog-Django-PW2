@@ -5,7 +5,7 @@ Para instalar y ejecutar este proyecto,  segue los siguientes pasos:
 1. Clona el repositorio en tu máquina local:
 
 ```bash
-  git clone thttps://github.com/avillaq/Blog-Django-PW2.git
+  git clone https://github.com/avillaq/Blog-Django-PW2.git
 ```
 2. Navega al directorio del proyecto:
 ```bash
