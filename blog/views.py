@@ -19,7 +19,7 @@ class PostListView(ListView): # Hereda de la clase ListView que es una vista gen
     queryset = Post.objects.filter(estado=Post.Estado.PUBLICADO).order_by('-fecha_publicado')
     context_object_name = 'posts' # El nombre de la variable de contexto que se utilizará en la plantilla.
     paginate_by = 3 # Muestra 3 posts por página.
-    template_name = 'blog/post/list.html' # La plantilla que se utilizará para renderizar la página.
+    template_name = 'blog/lista_post.html' # La plantilla que se utilizará para renderizar la página.
 
 
 def post_list(request):
@@ -39,7 +39,7 @@ def post_list(request):
         posts = paginador.page(paginador.num_pages)
 
     return render(request,
-                'blog/post/list.html',
+                'blog/lista_post.html',
                 {'posts': posts})
 
 def post_detail(request, year, month, day, post):
@@ -57,7 +57,7 @@ def post_detail(request, year, month, day, post):
     form = ComentarioForm()
     
     return render(request,
-                  'blog/post/detail.html',
+                  'blog/detalle_post.html',
                   {'post': post,
                    'comentarios': comentarios,
                    'form': form})
@@ -78,7 +78,7 @@ def post_share(request, post_id):
     else:
         form = EmailPostForm() # Crea un formulario en blanco si la solicitud no es POST.
         
-    return render(request, 'blog/post/share.html', {'post': post,
+    return render(request, 'blog/compartir_post.html', {'post': post,
                                                     'form': form,
                                                     'enviado': enviado})
 
@@ -94,6 +94,6 @@ def post_comment(request, post_id):
         comentario.post = post
         # Guarda el comentario en la base de datos
         comentario.save()
-    return render(request, 'blog/post/comment.html',
+    return render(request, 'blog/comentario_post.html',
                            {'post': post,
                             'comentario': comentario})
