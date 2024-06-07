@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comentario
 
 # Registra el modelo Post en el panel de administración de Django. 
 # admin.site.register(Post) . 
@@ -13,8 +13,8 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('titulo',)} # Crea un campo de slug que se rellena automáticamente con el valor del campo titulo.
     ordering = ['estado', 'fecha_publicado'] # Ordena los objetos por los campos estado y fecha_publicado en orden ascendente.
 
-@admin.register(Comment) 
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'post', 'created', 'active']
-    list_filter = ['active', 'created']
-    search_fields = ['name', 'email', 'body']
+@admin.register(Comentario) 
+class ComentarioAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'email', 'post', 'fecha_creado', 'activo']
+    list_filter = ['activo', 'fecha_creado']
+    search_fields = ['nombre', 'email', 'cuerpo']

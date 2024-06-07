@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Comment
+from .models import Post
 
 # Pagination
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Email form
-from .forms import EmailPostForm, CommentForm
+from .forms import EmailPostForm, ComentarioForm
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
@@ -27,16 +27,16 @@ def post_list(request):
     posts = Post.objects.filter(estado=Post.Estado.PUBLICADO).order_by('-fecha_publicado')  
     
     # Paginator mostrara 3 posts por página
-    paginator = Paginator(posts, 3)
-    page_number = request.GET.get('page', 1) # Obtiene el número de página de la URL de la solicitud.
+    paginador = Paginator(posts, 3)
+    numero_pagina = request.GET.get('page', 1) # Obtiene el número de página de la URL de la solicitud.
     try:
-        posts = paginator.page(page_number)
+        posts = paginador.page(numero_pagina)
     except PageNotAnInteger:
-        # Si page_number no es un entero, devuelve la primera página de resultados
-        posts = paginator.page(1)
+        # Si numero_pagina no es un entero, devuelve la primera página de resultados
+        posts = paginador.page(1)
     except EmptyPage:
-        # Si page_number es un entero pero no hay resultados, devuelve la última página de resultados
-        posts = paginator.page(paginator.num_pages)
+        # Si numero_pagina es un entero pero no hay resultados, devuelve la última página de resultados
+        posts = paginador.page(paginador.num_pages)
 
     return render(request,
                 'blog/post/list.html',
@@ -52,14 +52,14 @@ def post_detail(request, year, month, day, post):
                             fecha_publicado__day=day)
     
     # Lista de comentarios activos para este post
-    comments = post.comments.filter(active=True)
+    comentarios = post.comentarios.filter(activo=True)
     # Formulario para comentar
-    form = CommentForm()
+    form = ComentarioForm()
     
     return render(request,
                   'blog/post/detail.html',
                   {'post': post,
-                   'comments': comments,
+                   'comentarios': comentarios,
                    'form': form})
 
 def post_share(request, post_id):
@@ -69,11 +69,11 @@ def post_share(request, post_id):
     if request.method == 'POST': # Si el formulario se envía a través de una solicitud POST.
         form = EmailPostForm(request.POST)
         if form.is_valid():
-            cd = form.cleaned_data # La función cleaned_data devuelve un diccionario de datos limpios y validados.
+            datos = form.cleaned_data # La función cleaned_data devuelve un diccionario de datos limpios y validados.
             post_url = request.build_absolute_uri(post.get_absolute_url()) # Construye la URL absoluta del post.
-            subject = f"{cd['name']} te recomienda leer {post.titulo}"
-            message = f"Lee {post.titulo} en {post_url}\n\n {cd['comments']}"
-            send_mail(subject, message, 'villafuertequispealex@gmail.com', [cd['to']])
+            asunto = f"{datos['nombre']} te recomienda leer {post.titulo}"
+            mensaje = f"Lee {post.titulo} en {post_url}\n\n {datos['comentarios']}"
+            send_mail(asunto, mensaje, 'villafuertequispealex@gmail.com', [datos['para']])
             enviado = True
     else:
         form = EmailPostForm() # Crea un formulario en blanco si la solicitud no es POST.
@@ -86,7 +86,7 @@ def post_share(request, post_id):
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id, estado=Post.Estado.PUBLICADO)
     comentario = None  # Varialbe que almacena el comentario e indica si el comentario se ha guardado correctamente. 
-    form = CommentForm(data=request.POST)
+    form = ComentarioForm(data=request.POST)
     if form.is_valid():
         # Crea un objeto Comment pero no lo guarda en la base de datos todavía.
         comentario = form.save(commit=False)

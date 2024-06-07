@@ -4,7 +4,7 @@
     {% if enviado %}
         <h1>Correo enviado exitosamente</h1>
         <p>
-            "{{ post.titulo }}" fue enviado exitosamente a {{ form.cleaned_data.to }}.
+            "{{ post.titulo }}" fue enviado exitosamente a {{ form.cleaned_data.para }}.
         </p>
         <p><a href="{{ post.get_absolute_url }}">Volver al post</a></p>
 

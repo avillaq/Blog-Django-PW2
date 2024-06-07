@@ -14,13 +14,12 @@
 
     <h2>Comentarios: </h2>
     
-    {% for comment in comments %}
+    {% for comentario in comentarios %}
         <div class="comment">
             <p class="info">
-                Comentario por {{ comment.name }}
-                - {{ comment.created }}
+                Comentario por {{ comentario.nombre }} - {{ comentario.fecha_creado }}
             </p>
-            {{ comment.body|linebreaks }}
+            {{ comentario.cuerpo|linebreaks }}
         </div>
     {% empty %}
         <p>No hay ningun comentario</p>

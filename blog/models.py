@@ -23,8 +23,8 @@ class Post(models.Model):
     def __str__(self):
         return self.titulo
     
-    #IMPORTANTE : Esta funcion devuelve la URL canónica de un objeto.
-    def get_absolute_url(self):
+    #IMPORTANTE : Esta funcion devuelve la URL canónica de un post.
+    def get_absolute_url(self): # reverse() genera la URL absoluta a partir de la vista y los parámetros dados.
         return reverse('blog:post_detail',
                        args=[self.fecha_publicado.year,
                             self.fecha_publicado.month,
@@ -33,15 +33,15 @@ class Post(models.Model):
 
 
 
-class Comment(models.Model):
+class Comentario(models.Model):
     post = models.ForeignKey(Post,
                              on_delete=models.CASCADE,
-                             related_name='comments') # Relación inversa para acceder a los comentarios de un post.
-    name = models.CharField(max_length=80)
+                             related_name='comentarios') # Relación inversa para acceder a los comentarios de un post.
+    nombre = models.CharField(max_length=80)
     email = models.EmailField()
-    body = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    active = models.BooleanField(default=True)
+    cuerpo = models.TextField()
+    fecha_creado = models.DateTimeField(auto_now_add=True)
+    activo = models.BooleanField(default=True)
     
     def __str__(self):
-        return f'Comentario por {self.name} en {self.post}'
+        return f'Comentario por {self.nombre} en {self.post}'

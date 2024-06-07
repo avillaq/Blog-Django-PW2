@@ -1,15 +1,15 @@
 from django import forms
-from .models import Comment
+from .models import Comentario
 
 # Formulario personalizado . Los campos del formulario son creados manualmente.
 class EmailPostForm(forms.Form):
-    name = forms.CharField(max_length=25)
+    nombre = forms.CharField(max_length=25)
     email = forms.EmailField()
-    to = forms.EmailField()
-    comments = forms.CharField(required=False, widget=forms.Textarea)
+    para = forms.EmailField()
+    comentarios = forms.CharField(required=False, widget=forms.Textarea)
     
 # Formulario basado en el modelo Comment
-class CommentForm(forms.ModelForm):
+class ComentarioForm(forms.ModelForm):
     class Meta:
-        model = Comment
-        fields = ['name', 'email', 'body'] # Campos que se mostrarán en el formulario
+        model = Comentario
+        fields = ['nombre', 'email', 'cuerpo'] # Campos que se mostrarán en el formulario
