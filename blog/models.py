@@ -9,28 +9,26 @@ class Post(models.Model):
         BORRADOR = 'BR', 'Borrador'
         PUBLICADO = 'PB', 'Publicado'
     
-    title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250,
-                            unique_for_date='publish')
-    author = models.ForeignKey(User,
-                               on_delete=models.CASCADE,
-                               related_name='blog_posts')
-    body = models.TextField()
-    publish = models.DateTimeField(default=timezone.now)
-    created = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=2,
+    titulo = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250)
+    autor = models.ForeignKey(User,
+                               on_delete=models.CASCADE)
+    cuerpo = models.TextField()
+    fecha_publicado = models.DateTimeField(default=timezone.now)
+    fecha_creado = models.DateTimeField(auto_now_add=True)
+    estado = models.CharField(max_length=2,
                               choices=Estado.choices,
                               default=Estado.BORRADOR)
 
     def __str__(self):
-        return self.title
+        return self.titulo
     
     #IMPORTANTE : Esta funcion devuelve la URL canónica de un objeto.
     def get_absolute_url(self):
         return reverse('blog:post_detail',
-                       args=[self.publish.year,
-                            self.publish.month,
-                            self.publish.day,
+                       args=[self.fecha_publicado.year,
+                            self.fecha_publicado.month,
+                            self.fecha_publicado.day,
                             self.slug])
 
 
@@ -38,7 +36,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post,
                              on_delete=models.CASCADE,
-                             related_name='comments')
+                             related_name='comments') # Relación inversa para acceder a los comentarios de un post.
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()

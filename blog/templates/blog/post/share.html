@@ -4,12 +4,12 @@
     {% if enviado %}
         <h1>Correo enviado exitosamente</h1>
         <p>
-            "{{ post.title }}" fue enviado exitosamente a {{ form.cleaned_data.to }}.
+            "{{ post.titulo }}" fue enviado exitosamente a {{ form.cleaned_data.to }}.
         </p>
         <p><a href="{{ post.get_absolute_url }}">Volver al post</a></p>
 
     {% else %}
-        <h1>Compartir "{{ post.title }}" por correo</h1>
+        <h1>Compartir "{{ post.titulo }}" por correo</h1>
         <p><a href="{{ post.get_absolute_url }}">Volver al post</a></p>
 
         <form method="post">
