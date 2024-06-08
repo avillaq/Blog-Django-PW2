@@ -21,9 +21,8 @@ h2 {
 }
 
 #content {
-    float: left;
     width: 60%;
-    padding: 0 0 0 30px;
+    margin: 0 auto;
 }
 
 #sidebar {
@@ -35,7 +34,7 @@ h2 {
 }
 
 p.date {
-    color: #ccc;
+    color: #a2a2a2;
     font-family: georgia, serif;
     font-size: 12px;
     font-style: italic;
