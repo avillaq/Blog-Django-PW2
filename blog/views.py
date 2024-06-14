@@ -5,7 +5,7 @@ from .models import Post
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Email form
-from .forms import EmailPostForm, ComentarioForm
+from .forms import ComentarioForm
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
@@ -61,26 +61,6 @@ def post_detalle(request, year, month, day, post):
                   {'post': post,
                    'comentarios': comentarios,
                    'form': form})
-
-def post_compartir(request, post_id):
-    post = get_object_or_404(Post, id=post_id, estado=Post.Estado.PUBLICADO)
-    enviado = False # Variable que se establece en True si el correo electrónico se envía correctamente.
-
-    if request.method == 'POST': # Si el formulario se envía a través de una solicitud POST.
-        form = EmailPostForm(request.POST)
-        if form.is_valid():
-            datos = form.cleaned_data # La función cleaned_data devuelve un diccionario de datos limpios y validados.
-            post_url = request.build_absolute_uri(post.get_absolute_url()) # Construye la URL absoluta del post.
-            asunto = f"{datos['nombre']} te recomienda leer {post.titulo}"
-            mensaje = f"Lee {post.titulo} en {post_url}\n\n {datos['comentarios']}"
-            send_mail(asunto, mensaje, 'villafuertequispealex@gmail.com', [datos['para']])
-            enviado = True
-    else:
-        form = EmailPostForm() # Crea un formulario en blanco si la solicitud no es POST.
-        
-    return render(request, 'blog/post/compartir.html', {'post': post,
-                                                    'form': form,
-                                                    'enviado': enviado})
 
 @require_POST # Decorador que permite que la vista solo se pueda acceder a través de una solicitud POST.
 def post_comentar(request, post_id):
